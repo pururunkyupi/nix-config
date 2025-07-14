@@ -12,6 +12,7 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
+  # boot.loader.grub.devices = [ "/dev/sdb" ];
 
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/150ede2e-c074-421e-be78-fc67a03215da";

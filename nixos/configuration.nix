@@ -1,5 +1,7 @@
 # This is your system's configuration file.
 # Use this to configure your system environment (it replaces /etc/nixos/configuration.nix)
+
+
 {
   inputs,
   lib,
@@ -19,6 +21,10 @@
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
   ];
+
+  # Bootloader.
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables.enable = true;
 
   nixpkgs = {
     # You can add overlays here
@@ -75,12 +81,18 @@
       isNormalUser = true;
       openssh.authorizedKeys.keys = [
 	# TODO: Add your SSH public key(s) here, if you plan on using SSH to connect
-	AAAAC3NzaC1lZDI1NTE5AAAAINWxd4va3x38Ve/8Qsof5vOjU6Wx5hDlAfzIqBcUa1te
+	"ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINWxd4va3x38Ve/8Qsof5vOjU6Wx5hDlAfzIqBcUa1te pururunkyupi@tutamail.com"
       ];
       # TODO: Be sure to add any other groups you need (such as networkmanager, audio, docker, etc)
-      extraGroups = ["wheel" "networkmanager" "docker" "video" "audio"];
+      extraGroups = ["wheel" "networkmanager"];
     };
   };
+
+  # Enable the X11 windowing system.
+  services.xserver.enable = true;
+  # Enable KDE Plasma DE
+  services.displayManager.sddm.enable = true;
+  services.desktopManager.plasma6.enable = true;
 
   # This setups a SSH server. Very important if you're setting up a headless system.
   # Feel free to remove if you don't need it.
