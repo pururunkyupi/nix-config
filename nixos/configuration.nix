@@ -20,9 +20,6 @@
     ./hardware-configuration.nix
   ];
 
-  # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-
   nixpkgs = {
     # You can add overlays here
     overlays = [
@@ -74,22 +71,26 @@
       # TODO: You can set an initial password for your user.
       # If you do, you can skip setting a root password by passing '--no-root-passwd' to nixos-install.
       # Be sure to change it (using passwd) after rebooting!
-      # initialPassword = "correcthorsebatterystaple";
+      initialPassword = "correcthorsebatterystaple";
       isNormalUser = true;
       openssh.authorizedKeys.keys = [
-	# TODO: Add your SSH public key(s) here, if you plan on using SSH to connect
+        # TODO: Add your SSH public key(s) here, if you plan on using SSH to connect
 	"ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINWxd4va3x38Ve/8Qsof5vOjU6Wx5hDlAfzIqBcUa1te pururunkyupi@tutamail.com"
       ];
       # TODO: Be sure to add any other groups you need (such as networkmanager, audio, docker, etc)
       extraGroups = ["wheel" "networkmanager"];
+      description = "Pururun's Flake";
+      packages = with pkgs; [
+      	vim
+	git
+      	wget
+      	curl
+      	kdePackages.kate
+    #  thunderbird
+    ];
+
     };
   };
-
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-  # Enable KDE Plasma DE
-  services.displayManager.sddm.enable = true;
-  services.desktopManager.plasma6.enable = true;
 
   # This setups a SSH server. Very important if you're setting up a headless system.
   # Feel free to remove if you don't need it.
@@ -104,6 +105,32 @@
     };
   };
 
+  # Enable the X11 windowing system.
+  # You can disable this if you're only using the Wayland session.
+  services.xserver.enable = true;
+
+  # Enable the KDE Plasma Desktop Environment.
+  services.displayManager.sddm.enable = true;
+  services.desktopManager.plasma6.enable = true;
+
+  # Enable sound with pipewire.
+  services.pulseaudio.enable = false;
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    # If you want to use JACK applications, uncomment this
+    #jack.enable = true;
+
+    # use the example session manager (no others are packaged yet so this is enabled by default,
+    # no need to redefine it in your config for now)
+    #media-session.enable = true;
+  };
+
+
+
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-  system.stateVersion = "25.05";
+  system.stateVersion = "23.05";
 }
