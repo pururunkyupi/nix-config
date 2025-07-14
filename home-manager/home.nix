@@ -47,7 +47,7 @@
   # Add stuff for your user as you see fit:
   programs.neovim.enable = true;
   programs.firefox.enable = true;
-  home.packages = with pkgs; [ neovim steam firefox ];
+  home.packages = with pkgs; [ steam firefox ];
 
   # Enable home-manager and git
   programs.home-manager.enable = true;
