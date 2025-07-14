@@ -78,7 +78,7 @@
 	AAAAC3NzaC1lZDI1NTE5AAAAINWxd4va3x38Ve/8Qsof5vOjU6Wx5hDlAfzIqBcUa1te
       ];
       # TODO: Be sure to add any other groups you need (such as networkmanager, audio, docker, etc)
-      extraGroups = ["wheel", "networkmanager", "docker", "video", "audio"];
+      extraGroups = ["wheel" "networkmanager" "docker" "video" "audio"];
     };
   };
 
